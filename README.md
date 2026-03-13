@@ -45,4 +45,3 @@ Un sistema refactorizado, que traslada el cómputo intensivo al backend y brinda
    npm install
    npm run dev
    ```
-   *Accede desde tu navegador al puerto 5173 e interactúa con el Tracker.*
