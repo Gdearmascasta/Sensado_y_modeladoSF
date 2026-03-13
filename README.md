@@ -6,10 +6,11 @@ Repositorio dedicado a documentar y centralizar todas las actividades, práctica
 
 ## 🚀 Proyectos y Actividades
 
-### 1. Actividad de Caída Libre: Gravedad Tracker
-Una completa suite de análisis de video diseñado para estimar el valor de la gravedad ($g$) a partir de videos caseros de un objeto en caída libre. Este proyecto cuenta con distintos enfoques de desarrollo para el procesamiento de los fotogramas y la interacción con el usuario.
+### 1. Estimación Manual de Caída Libre (`01_manual_gravity_estimation/`)
+Análisis tradicional en el cual calculamos la gravedad extraída de un objeto en caída libre de forma manual evaluando modelos físicos.
 
-El directorio principal para esta suite es `App_Analisis_Gravedad/`.
+### 2. Suite Automatizada: Gravedad Tracker (`02_automated_gravity_tracker/`)
+Una completa suite de análisis de video diseñado para estimar el valor de la gravedad ($g$) a partir de videos caseros de un objeto en caída libre de forma totalmente automatizada. Este proyecto cuenta con distintos enfoques de desarrollo para el procesamiento de los fotogramas y la interacción con el usuario.
 
 #### 📌 Características del Gravedad Tracker
 - **Segmentación por Color (HSV):** Detección de la bola mediante máscaras generadas dinámicamente con OpenCV.
@@ -32,7 +33,7 @@ Un sistema refactorizado, que traslada el cómputo intensivo al backend y brinda
 1. **Backend:**
    Navega al directorio del backend y despliega su entorno virtual con sus requerimientos, e inicia el servidor.
    ```bash
-   cd App_Analisis_Gravedad/backend
+   cd 02_automated_gravity_tracker/backend
    pip install -r requirements.txt
    python3 -m uvicorn main:app --reload
    ```
@@ -40,7 +41,7 @@ Un sistema refactorizado, que traslada el cómputo intensivo al backend y brinda
 2. **Frontend:**
    Navega al directorio del panel de React y lanza la interfaz en entorno de Node.
    ```bash
-   cd App_Analisis_Gravedad/frontend
+   cd 02_automated_gravity_tracker/frontend
    npm install
    npm run dev
    ```
