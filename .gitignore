@@ -30,3 +30,12 @@ uploads/
 node_modules/
 dist/
 .env
+
+# Latex
+*.log
+*.aux
+*.out
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.main.toc
