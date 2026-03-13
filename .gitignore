@@ -38,4 +38,4 @@ dist/
 *.fdb_latexmk
 *.fls
 *.synctex.gz
-*.main.toc
+*.toc
