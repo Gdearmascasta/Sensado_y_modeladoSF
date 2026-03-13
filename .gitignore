@@ -3,3 +3,30 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Entornos virtuales
+venv/
+env/
+
+# Archivos de video pesados
+*.mp4
+*.MOV
+*.mov
+*.MP4
+*.avi
+
+# Archivos generados
+gravedad_resultado.png
+html.html
+
+# Archivos de cache de Python
+__pycache__
+*.pyc
+
+
+
+# Ignorar uploads y front
+uploads/
+node_modules/
+dist/
+.env
