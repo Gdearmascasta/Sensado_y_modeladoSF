@@ -15,7 +15,7 @@
 
 \begin{titlepage}
 	\centering
-	\includegraphics[width=0.4\textwidth]{../../resources/logos/Nuevo-logo-UTB-1.png}\par\vspace{1.5cm} 
+	\includegraphics[width=0.55\textwidth]{../../resources/logos/Nuevo-logo-UTB-1.png}\par\vspace{1.5cm} 
 	{\scshape\LARGE\textbf{Universidad Tecnológica de Bolívar} \par}
 	\vspace{1.5cm}
     \rule{\linewidth}{0.2 mm} \\[0.4 cm]
@@ -55,6 +55,21 @@ donde la aceleración de la gravedad $g$, la velocidad inicial $v_0$ y la posici
 La medición empírica de parámetros como la gravedad suele verse afectada negativamente por el error humano. El tiempo de reacción manual al usar un cronómetro es irregular e introduce sesgos muy grandes dentro de datos que se miden en simples fracciones de segundo, generando resultados que muchas veces carecen de sentido físico.
 
 Para solucionar este obstáculo, el sistema propuesto elimina toda intervención humana en la medición utilizando una cámara de video con una tasa de fotogramas por segundo (FPS) constante. Si cada fotograma registra la posición $y$ del objeto en ese instante, el reloj se puede abstraer a gran precisión calculando el tiempo como $t = \frac{\text{frame}}{\text{FPS}}$. De esta manera, el error desproporcionado que introduce una persona se sustituye únicamente por el mínimo margen de desvío del sensor de la cámara, logrando mayor rigurosidad analítica.
+
+\subsection{Objetivos}
+
+\subsubsection{Objetivo General}
+Desarrollar un sistema automatizado de análisis cinemático basado en visión computacional que permita estimar con alta precisión la aceleración de la gravedad ($g$) a partir de videos de objetos en caída libre, eliminando la intervención manual en la recolección de datos.
+
+\subsubsection{Objetivos Específicos}
+\begin{itemize}
+    \item Implementar un algoritmo de segmentación por color en el espacio HSV para detectar y aislar el objeto en caída dentro de cada fotograma del video.
+    \item Diseñar un sistema de calibración espacial que permita convertir las mediciones de píxeles a unidades métricas reales mediante un objeto de referencia.
+    \item Calcular el centroide del objeto detectado cuadro a cuadro utilizando momentos de imagen ($M_{ij}$) para construir la trayectoria posición-tiempo.
+    \item Aplicar un filtro heurístico basado en derivadas numéricas para aislar automáticamente el tramo de caída libre pura, descartando ruido estático y rebotes.
+    \item Ajustar los datos filtrados al modelo parabólico $y(t) = y_0 + v_0 t + \frac{1}{2}gt^2$ mediante regresión no lineal (Levenberg-Marquardt) con tres grados de libertad simultáneos.
+    \item Construir una arquitectura cliente-servidor asíncrona (FastAPI + React) que permita el procesamiento en tiempo real y la visualización interactiva de resultados.
+\end{itemize}
 
 \section{Técnicas Utilizadas y Metodología Computacional}
 El sistema utiliza varios flujos de trabajo científicos importantes de Python: \texttt{OpenCV} para extraer fotogramas y detectar visualmente el objeto, \texttt{NumPy} para procesar los datos matemáticos numéricos, y \texttt{SciPy} para ajustar la curva final y minimizar el margen de error. El proceso base es el siguiente:

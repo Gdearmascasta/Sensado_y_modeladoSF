@@ -15,7 +15,7 @@
 
 \begin{titlepage}
 	\centering
-	\includegraphics[width=0.4\textwidth]{../../resources/logos/Nuevo-logo-UTB-1.png}\par\vspace{1.5cm} 
+	\includegraphics[width=0.55\textwidth]{../../resources/logos/Nuevo-logo-UTB-1.png}\par\vspace{1.5cm} 
 	{\scshape\LARGE\textbf{Universidad Tecnológica de Bolívar} \par}
 	\vspace{1.5cm}
     \rule{\linewidth}{0.2 mm} \\[0.4 cm]
@@ -50,6 +50,20 @@ $$
 donde $y_0$ es la altura inicial, $v_0$ la velocidad inicial y $g$ la aceleración de la gravedad (tomada como positiva en este sistema de referencia). 
 
 El análisis de los datos se efectuó a través de un script en Python empleado para realizar un ajuste por mínimos cuadrados no lineales. El objetivo de este trabajo es interpretar el ajuste realizado por el código sobre los datos experimentales, evaluar la validez de las consideraciones asumidas en el modelo y documentar las limitaciones del procedimiento para la estimación de la gravedad.
+
+\subsection{Objetivos}
+
+\subsubsection{Objetivo General}
+Estimar experimentalmente la aceleración de la gravedad ($g$) a partir de mediciones manuales de caída libre, empleando un ajuste por mínimos cuadrados no lineales sobre el modelo cinemático simplificado $y(t) = \frac{g}{2}t^2$.
+
+\subsubsection{Objetivos Específicos}
+\begin{itemize}
+    \item Recopilar datos experimentales de tiempo y distancia de caída libre utilizando cronómetro manual.
+    \item Implementar un script en Python que realice el ajuste numérico de los datos mediante la función \texttt{curve\_fit} de \texttt{SciPy}.
+    \item Evaluar la calidad del ajuste a través de los residuos y la matriz de covarianza resultante.
+    \item Identificar y analizar las fuentes de error sistemático asociadas a la medición manual del tiempo.
+    \item Contrastar el valor obtenido de $g$ con el valor teórico esperado ($\approx 9.81\ \mathrm{m/s^2}$) y discutir las causas de la discrepancia.
+\end{itemize}
 
 \subsection{Planteamiento del problema}
 Se dispone de un conjunto de 13 mediciones de tiempo (en segundos) y posición (en metros). En el código analizado, se propone ajustar estos datos mediante la ecuación simplificada:
