@@ -9,10 +9,8 @@ venv/
 env/
 
 # Archivos de video pesados
-*.mp4
 *.MOV
 *.mov
-*.MP4
 *.avi
 
 # Archivos generados
