@@ -102,26 +102,6 @@ export default function AppLauncherManager({ app, isOpen, onClose, status, setSt
           style={{ backgroundColor: app.accentColor }}
         />
 
-        {/* Actions */}
-        <div className="absolute right-4 top-4 z-50 flex items-center space-x-3">
-          {status === 'running' && (
-            <button
-              type="button"
-              onClick={stopApp}
-              className="rounded-full bg-red-500/10 px-4 py-2 text-[11px] font-bold text-red-400 border border-red-500/15 transition-all hover:bg-red-500/20 uppercase tracking-wider"
-            >
-              Detener
-            </button>
-          )}
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 border border-white/5 text-zinc-500 transition-all hover:bg-white/10 hover:text-zinc-300"
-          >
-            <X size={16} />
-          </button>
-        </div>
-
         {/* ── IDLE STATE ── */}
         {status === 'idle' && (
           <div className="relative z-10 p-10 flex flex-col items-center text-center">
@@ -226,16 +206,19 @@ export default function AppLauncherManager({ app, isOpen, onClose, status, setSt
           <div className="relative z-10 flex flex-col h-full w-full">
             {app.previewUrl ? (
               <>
-                <div className="flex items-center space-x-3 px-5 py-3 bg-black/60 border-b border-white/5">
-                  {(() => {
-                    const Icon = app.icon;
-                    return <Icon size={20} color={app.accentColor} strokeWidth={2} />;
-                  })()}
-                  <span className="text-sm font-semibold text-white">{app.name}</span>
-                  <span className="ml-auto inline-flex items-center space-x-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400 border border-emerald-500/15">
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-                    <span>Activa</span>
-                  </span>
+                <div className="flex items-center justify-between px-6 py-4 bg-black/60 border-b border-white/5 shrink-0 relative z-20">
+                  <div className="flex items-center space-x-3">
+                    {(() => {
+                      const Icon = app.icon;
+                      return <Icon size={20} color={app.accentColor} strokeWidth={2} />;
+                    })()}
+                    <span className="text-sm font-semibold text-white tracking-wide">{app.name}</span>
+                    <span className="ml-3 inline-flex items-center space-x-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400 border border-emerald-500/15">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                      <span>Activa</span>
+                    </span>
+                  </div>
+                  
                 </div>
                 <div className="flex-1 w-full relative bg-zinc-950">
                   <iframe src={app.previewUrl} className="absolute inset-0 w-full h-full border-0" title={app.name} />
@@ -262,6 +245,27 @@ export default function AppLauncherManager({ app, isOpen, onClose, status, setSt
             )}
           </div>
         )}
+
+        {/* Actions - Floating and always on top (Moved to end for higher DOM priority) */}
+        <div className="absolute right-6 top-6 z-[100] flex items-center space-x-3">
+          {status === 'running' && (
+            <button
+              type="button"
+              onClick={stopApp}
+              className="rounded-full bg-red-500/20 px-4 py-2 text-[11px] font-bold text-red-400 border border-red-500/30 backdrop-blur-md transition-all hover:bg-red-500/30 uppercase tracking-wider shadow-xl shadow-red-500/10"
+            >
+              Detener
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex items-center space-x-2 rounded-full bg-zinc-900/80 px-4 py-2 text-[11px] font-bold text-white border border-white/20 backdrop-blur-md transition-all hover:bg-white/10 uppercase tracking-wider shadow-2xl"
+          >
+            <span>Volver</span>
+            <X size={14} />
+          </button>
+        </div>
       </div>
     </div>
   );
