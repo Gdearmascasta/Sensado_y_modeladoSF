@@ -97,6 +97,7 @@ def process_video_stream(video_path, hsv_lower, hsv_upper, start=0, end=0):
         "peak_times": [float(t) for t in peak_times],
         "points": len(times),
         "y_pixels": [round(float(m), 4) for m in y_pixels],
+        "heights": [round(float(h), 4) for h in heights],
         "times": [round(float(t), 4) for t in times]
     }
     yield json.dumps({"type": "result", "data": res}) + "\n"
