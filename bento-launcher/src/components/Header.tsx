@@ -25,13 +25,13 @@ export default function Header() {
           </div>
 
           <div className="min-w-0">
-            <h1 className="text-3xl font-bold tracking-tighter text-white sm:text-5xl" style={{ letterSpacing: '-0.03em' }}>
-              Sensado y Modelado{' '}
-              <span className="text-zinc-400 font-light" style={{ letterSpacing: '-0.02em' }}>
-                de Sistemas Físicos
+            <h1 className="text-4xl font-extrabold text-white sm:text-6xl tracking-tight" style={{ letterSpacing: '-0.04em' }}>
+              Sensado y Modelado<br className="hidden sm:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-br from-zinc-300 to-zinc-600" style={{ letterSpacing: '-0.04em' }}>
+                {' '}de Sistemas Físicos
               </span>
             </h1>
-            <p className="mt-3 max-w-2xl text-[15px] font-light leading-relaxed text-zinc-500 tracking-wide">
+            <p className="mt-4 max-w-2xl text-[16px] font-medium leading-relaxed text-zinc-400 tracking-tight" style={{ letterSpacing: '-0.01em' }}>
               Hub central del repositorio — notebooks, aplicaciones y herramientas analíticas avanzadas del curso de la UTB.
             </p>
           </div>
