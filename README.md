@@ -1,64 +1,73 @@
 # Sensado y Modelado de Sistemas Físicos
 
-Repositorio dedicado a documentar y centralizar todas las actividades, prácticas y códigos desarrollados en la asignatura de **Sensado y Modelado de Sistemas Físicos**. Incluye implementaciones, ejercicios, experimentos y recursos utilizados para el análisis, simulación y comprensión del comportamiento de sistemas físicos a partir de datos.
+Repositorio dedicado a documentar y centralizar todas las actividades, prácticas y códigos desarrollados en la asignatura de **Sensado y Modelado de Sistemas Físicos**. Este espacio integra herramientas avanzadas de visión computacional, análisis numérico y simulaciones interactivas para el estudio de sistemas físicos.
 
 ---
 
-## 🚀 Proyectos y Actividades
+## 🍱 Bento Launcher: El Centro de Control
 
-### 1. Estimación Manual de Caída Libre (`01_manual_gravity_estimation/`)
-Análisis tradicional en el cual calculamos la gravedad extraída de un objeto en caída libre de forma manual evaluando modelos físicos.
+Para facilitar la navegación y ejecución de los diferentes módulos, se ha desarrollado un **Bento Launcher** con estética premium. Este dashboard central permite lanzar cada uno de los experimentos de forma automatizada, gestionando los backends y frontends necesarios de manera transparente.
 
-### 2. Suite Automatizada: Gravedad Tracker (`02_automated_gravity_tracker/`)
-Una completa y rigurosa suite analítica diseñada para estimar automatizadamente la constante gravitacional ($g$) procesando cinemáticamente videos de objetos en caída libre. A diferencia del método manual, este motor extrae la telemetría utilizando algoritmos avanzados de Visión Computacional, paralelismo y ajustes numéricos para lograr precisión científica de altísima fidelidad ($R^2 \approx 0.99$).
+<p align="center">
+  <img src="bento-launcher/public/imgs/interfaz.png" width="100%" alt="Bento Launcher Interface">
+</p>
 
-#### 📌 Metodología y Flujo Computacional
-El flujo de procesamiento del sistema abstrae completamente la intervención manual y los desvíos del error humano basándose en cuatro grandes bloques matriciales:
+### ✨ Características del Launcher:
+- **Interfaz Glassmorphism**: Diseño moderno inspirado en las mejores interfaces de la industria (Apple/Stripe).
+- **Lanzamiento Automatizado**: Orquestación de servicios locales (FastAPI + React) con logs en tiempo real.
+- **Gestión de Procesos**: Capacidad de iniciar y detener servicios directamente desde el dashboard.
 
-- **Calibración a Escala Real:** Conversión abstracta de los ejes de vista de píxeles a metros reales empleando el Teorema de Pitágoras e inserción de una regla de referencia ($px \rightarrow m$).
-  <br>
-  <img src="02_automated_gravity_tracker/report/imgs/calibracion.png" width="450">
+---
 
-- **Segmentación por Filtro Cromático (HSV):** Detección interactiva purificando dinámicamente el contorno esférico sobre el fondo empleando máscaras con restricciones estáticas \`cv2.inRange\`.
-  <br>
-  <img src="02_automated_gravity_tracker/report/imgs/filtro-hsv.png" width="400"> <img src="02_automated_gravity_tracker/report/imgs/mascara-hsv.png" width="400">
+## 🚀 Aplicaciones del Laboratorio
 
-- **Seguimiento Continuo y Centroide:** Cálculo matricial iterativo de momentos de imagen ($M_{ij}$) que persigue el instante exacto posición-tiempo ($y, t$) del vuelo cuadro por cuadro eludiendo sesgos.
-  <br>
-  <img src="02_automated_gravity_tracker/report/imgs/deteccion-frames.png" width="600">
+El repositorio se divide en 4 grandes bloques experimentales, cada uno con su propia arquitectura cliente-servidor:
 
-- **Ajuste Estadístico No Lineal:** Regresión parabólica mediante el optimizador Levenberg-Marquardt (\`scipy.optimize.curve_fit\`) calculando 3 grados de libertad paramétricos conjuntos ($y = y_0 + v_0t + \frac{1}{2}gt^2$).
-  <br>
-  <img src="02_automated_gravity_tracker/report/imgs/resultados.png" width="800">
+### 1. Estimación Manual de Gravedad (`01_manual_gravity_estimation/`)
+Análisis tradicional donde el usuario ingresa datos de tiempo y posición de un objeto en caída libre. Utiliza ajustes de curva (`curve_fit`) para estimar la gravedad evaluando modelos teóricos.
 
+<p align="center">
+  <img src="bento-launcher/public/imgs/gravedad-manual.png" width="800" alt="Manual Gravity Estimation">
+</p>
 
-#### 🛠️ Arquitectura Asíncrona Desarrollada
+### 2. Gravity Tracker Automatizado (`02_automated_gravity_tracker/`)
+Suite analítica que emplea **Visión Computacional** (OpenCV) para extraer la telemetría de un video de caída libre. Realiza segmentación HSV, seguimiento de centroides y ajustes estadísticos no lineales para una precisión científica extrema.
 
-Se abandonó la monolítica versión inicial para desarrollar una **Arquitectura Cliente-Servidor (Web SPA)** de alto rendimiento que evite latencias matriciales estrepitosas:
+<p align="center">
+  <img src="bento-launcher/public/imgs/gravedad-automatica-app.png" width="800" alt="Automated Gravity Tracker">
+</p>
 
-1. **🚀 Backend Matemático (FastAPI + OpenCV + SciPy)**
-   Programado en Python puro usando FastAPI. Implementa un puente asíncrono riguroso inyectando eventos continuos \`Server-Sent Events\` (SSE - NDJSON). Delega al servidor la decodificación de video, las rutinas generadoras de derivadas subyacentes y el complejo rastreo, transmitiendo únicamente fracciones diminutas al visualizador.
-2. **✨ Frontend Interactivo (React + Vite + Tailwind)**
-   SPA moderna construida en TypeScript/React. Proporciona todo el lienzo interactivo donde el experimentador dictamina el factor de calibración, ajusta su espectro HSV para ver previsualizaciones Base64 y enciende el Streaming en tiempo real mientras evalúa la caída trazándose dinámicamente apoyado en librerías gráficas como \`Recharts\`.
+### 3. Coeficiente de Restitución (`03_coefficient_restitution/`)
+Detecta automáticamente los instantes de impacto de una pelota en rebote mediante análisis de video. Calcula la pérdida de energía y el coeficiente de restitución analizando la secuencia de alturas máximas.
 
-#### 💻 ¿Cómo Desplegar el Aplicativo Localmente?
+<p align="center">
+  <img src="bento-launcher/public/imgs/restitucion-app.png" width="800" alt="Restitution Coefficient Calculator">
+</p>
 
-Para levantar todo el entorno algorítmico concurrente:
+### 4. Péndulo Simple (`04_simple_pendulum/`)
+Estudia el movimiento armónico simple. Utiliza seguimiento de color para obtener la posición angular y aplica una **Transformada Rápida de Fourier (FFT)** para encontrar la frecuencia dominante, permitiendo calcular la gravedad a partir del período de oscilación.
 
-**1. Lanzar el Servidor Numérico (Backend):**
-Navega a la carpeta del motor matemático local y arranca su estado en entorno virtual.
-```bash
-cd 02_automated_gravity_tracker/backend
-pip install -r requirements.txt
-python3 -m uvicorn main:app --reload
-```
-*(El servicio REST quedará a la escucha en `localhost:8000`)*
+<p align="center">
+  <img src="bento-launcher/public/imgs/pendulo-app.png" width="800" alt="Simple Pendulum Analyzer">
+</p>
 
-2. **Frontend:**
-   Navega al directorio del panel de React y lanza la interfaz en entorno de Node.
+---
+
+## 🛠️ Ejecución del Ecosistema
+
+Para disfrutar de la experiencia completa, lo más recomendable es utilizar el lanzador central:
+
+### 🚀 Lanzar el Bento Launcher:
+1. **Instalar dependencias y arrancar:**
    ```bash
-   cd 02_automated_gravity_tracker/frontend
+   cd bento-launcher
    npm install
    npm run dev
    ```
-   *Accede desde tu navegador al puerto 5173 e interactúa con el Tracker.*
+2. **Acceder a la interfaz:**
+   Abre [http://localhost:5173](http://localhost:5173) en tu navegador.
+3. **Lanzar Apps:**
+   Haz clic en "Lanzar App" en cualquiera de las tarjetas para que el sistema orqueste automáticamente los backends de Python y los frontends de React correspondientes.
+
+---
+
