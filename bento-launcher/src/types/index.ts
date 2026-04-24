@@ -1,3 +1,5 @@
+import { ElementType } from 'react';
+
 export type LaunchType = 'enlace_web' | 'comando_local' | 'notebook' | 'documento' | 'info';
 
 export type GridSize = { colSpan: 1 | 2; rowSpan: 1 | 2 };
@@ -11,7 +13,7 @@ export interface AppDefinition {
   id: string;
   name: string;
   description: string;
-  icon: string;
+  icon: ElementType;
   accentColor: string;
   gridSize: GridSize;
   launchType: LaunchType;
