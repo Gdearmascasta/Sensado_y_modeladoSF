@@ -1,4 +1,5 @@
 import type { AppDefinition } from '../types';
+import { Weight, Crosshair, Repeat2, Clock } from 'lucide-react';
 
 export const appRegistry: AppDefinition[] = [
   // ── 01 — Estimación Manual de Gravedad ──
@@ -6,9 +7,9 @@ export const appRegistry: AppDefinition[] = [
     id: 'manual-gravity',
     name: 'Estimación Manual de Gravedad',
     description:
-      'Ingresa datos de tiempo y posición de un objeto en caída libre para estimar g mediante ajuste de curva (curve_fit). Visualiza la trayectoria experimental vs. el modelo teórico y = ½gt².',
-    icon: '🍎',
-    accentColor: '#f59e0b',
+      'Ingresa datos de tiempo y posición de un objeto en caída libre para estimar g usando ajuste de curva (curve_fit). Visualiza la trayectoria experimental vs. el modelo teórico y = ½gt².',
+    icon: Weight,
+    accentColor: '#f59e0b', // Amber/Teal glow base
     gridSize: { colSpan: 1, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5173',
@@ -29,9 +30,9 @@ export const appRegistry: AppDefinition[] = [
     id: 'gravity-tracker-web',
     name: 'Gravity Tracker — Automatizado',
     description:
-      'Suite analítica avanzada que estima g procesando cinemáticamente videos de caída libre con visión computacional, calibración px→m y ajustes numéricos de alta fidelidad (R² ≈ 0.99).',
-    icon: '🎯',
-    accentColor: '#3b82f6',
+      'Suite analítica avanzada que estima g procesando cinemáticamente videos de caída libre con visión computacional, calibración px→m y ajustes numéricos de alta fidelidad.',
+    icon: Crosshair,
+    accentColor: '#06b6d4', // Cyan/Blue glow base
     gridSize: { colSpan: 1, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5174',
@@ -52,9 +53,9 @@ export const appRegistry: AppDefinition[] = [
     id: 'restitution-calculator',
     name: 'Coeficiente de Restitución — Automatizado',
     description:
-      'Detecta automáticamente los rebotes de una pelota procesando video con visión computacional (OpenCV). Calcula el coeficiente de restitución (e) analizando las alturas y visualiza la decadencia energética.',
-    icon: '🏀',
-    accentColor: '#10b981',
+      'Detecta automáticamente los rebotes procesando video con visión computacional. Calcula el coeficiente de restitución analizando las alturas y visualiza la decadencia energética.',
+    icon: Repeat2,
+    accentColor: '#8b5cf6', // Violet
     gridSize: { colSpan: 1, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5175',
@@ -75,9 +76,9 @@ export const appRegistry: AppDefinition[] = [
     id: 'simple-pendulum',
     name: 'Péndulo Simple — Automatizado',
     description:
-      'Analiza el periodo de oscilación procesando video en tiempo real. Usa visión computacional para rastrear la masa y FFT para encontrar la frecuencia dominante, estimando la gravedad automáticamente.',
-    icon: '🕰️',
-    accentColor: '#8b5cf6',
+      'Analiza el período de oscilación procesando video en tiempo real. Usa visión computacional y FFT para encontrar la frecuencia dominante, estimando la gravedad automáticamente.',
+    icon: Clock,
+    accentColor: '#3b82f6', // Blue
     gridSize: { colSpan: 1, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5176',
