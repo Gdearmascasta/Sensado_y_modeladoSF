@@ -17,6 +17,13 @@ Para facilitar la navegación y ejecución de los diferentes módulos, se ha des
 - **Lanzamiento Automatizado**: Orquestación de servicios locales (FastAPI + React) con logs en tiempo real.
 - **Gestión de Procesos**: Capacidad de iniciar y detener servicios directamente desde el dashboard.
 
+### 🛠️ Flujo de Operación:
+Para iniciar cualquier módulo, simplemente selecciona una tarjeta y el lanzador se encargará de configurar el entorno automáticamente:
+
+| 1. Configuración y Lanzamiento | 2. Ejecución e Interfaz |
+| :---: | :---: |
+| ![Lanzar App](bento-launcher/public/imgs/lanzar-app.png) | ![Ejecución App](bento-launcher/public/imgs/ejecucion-app.png) |
+
 ---
 
 ## 🚀 Aplicaciones del Laboratorio
