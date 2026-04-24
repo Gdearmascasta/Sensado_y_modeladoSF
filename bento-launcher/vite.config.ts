@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { exec } from 'child_process'
-import { writeFileSync, mkdirSync } from 'fs'
-import { tmpdir } from 'os'
+import { spawn } from 'child_process'
 import { join } from 'path'
+
+// Map of appId -> array of child processes
+const activeProcesses = new Map<string, any[]>();
 
 const systemCommandPlugin = () => ({
   name: 'system-command',
@@ -14,29 +15,51 @@ const systemCommandPlugin = () => ({
         req.on('data', (chunk: Buffer) => { body += chunk.toString(); });
         req.on('end', () => {
           try {
-            const { command } = JSON.parse(body);
-
-            // The parent directory of bento-launcher (i.e. Sensado_y_modeladoSF)
+            const { command, appId } = JSON.parse(body);
             const rootDir = join(process.cwd(), '..');
-
-            // Write the full command to a temp shell script to avoid
-            // AppleScript escaping nightmares with paths that have spaces.
-            const tmpDir = tmpdir();
-            const scriptPath = join(tmpDir, `launcher_${Date.now()}.sh`);
-            const scriptContent = [
-              '#!/bin/bash',
-              `cd "${rootDir}"`,
-              command,
-            ].join('\n');
-
-            writeFileSync(scriptPath, scriptContent, { mode: 0o755 });
-
-            // Now open a Terminal window that just runs this simple script path
-            // (no spaces or special chars in /tmp path — safe to embed directly)
-            const appleScript = `tell application "Terminal" to do script "bash ${scriptPath}"`;
-            exec(`osascript -e '${appleScript}'`, (err) => {
-              if (err) console.error('Error executing osascript:', err);
+            
+            const child = spawn('bash', ['-c', command], { 
+                cwd: rootDir,
+                detached: true,
+                stdio: 'ignore'
             });
+            
+            child.unref();
+
+            if (appId) {
+                if (!activeProcesses.has(appId)) {
+                    activeProcesses.set(appId, []);
+                }
+                activeProcesses.get(appId)!.push(child);
+            }
+
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ success: true, pid: child.pid }));
+          } catch (e) {
+            res.statusCode = 500;
+            res.end(JSON.stringify({ error: String(e) }));
+          }
+        });
+      } else if (req.url === '/api/stop-app' && req.method === 'POST') {
+        let body = '';
+        req.on('data', (chunk: Buffer) => { body += chunk.toString(); });
+        req.on('end', () => {
+          try {
+            const { appId } = JSON.parse(body);
+            
+            if (appId && activeProcesses.has(appId)) {
+                const processes = activeProcesses.get(appId)!;
+                for (const child of processes) {
+                    try {
+                        if (child.pid) {
+                            process.kill(-child.pid); // Kill process group
+                        }
+                    } catch (err) {
+                        console.error(`Error killing process ${child.pid}:`, err);
+                    }
+                }
+                activeProcesses.delete(appId);
+            }
 
             res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify({ success: true }));
@@ -45,6 +68,10 @@ const systemCommandPlugin = () => ({
             res.end(JSON.stringify({ error: String(e) }));
           }
         });
+      } else if (req.url === '/api/active-apps' && req.method === 'GET') {
+        res.setHeader('Content-Type', 'application/json');
+        const activeAppIds = Array.from(activeProcesses.keys());
+        res.end(JSON.stringify({ activeApps: activeAppIds }));
       } else {
         next();
       }
