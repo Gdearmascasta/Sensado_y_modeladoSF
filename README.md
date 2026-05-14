@@ -61,6 +61,10 @@ Estudia el movimiento armónico simple. Utiliza seguimiento de color para obtene
 ### 5. Imágenes Satelitales — Clasificación de Cobertura Terrestre (`05_satellite_images/`)
 Aplicación web que consulta imágenes **Sentinel-2 L2A** del catálogo STAC de Microsoft Planetary Computer, descarga bandas espectrales, calcula índices (NDVI, BSI, NDWI) y entrena un clasificador **Random Forest** con pseudo-etiquetado para generar un mapa de cobertura terrestre (Vegetación / Agua / Minería / No clasificado).
 
+<p align="center">
+  <img src="bento-launcher/public/imgs/mapa_clasificacion_mineria.png" width="800" alt="Simple Pendulum Analyzer">
+</p>
+
 El flujo guiado de 5 pasos permite:
 - Configurar zona de interés, rango temporal y umbral de nubosidad
 - Descargar bandas y visualizar el True Color Preview
