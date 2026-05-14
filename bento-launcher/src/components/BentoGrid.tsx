@@ -22,17 +22,21 @@ export default function BentoGrid({ apps, onAppClick, appStates }: BentoGridProp
 
   return (
     /*
-     * Responsive grid:
-     *   mobile  → 1 column
-     *   sm      → 2 columns
-     *   lg      → 4 columns (true bento asymmetry)
+     * Layout strategy:
      *
-     * Each tile declares its own col-span / row-span via getGridClasses().
-     * grid-rows: auto lets tiles with rowSpan:2 expand naturally.
+     * mobile  (< 640px)  → 1 col, each tile auto height (stacked list)
+     * sm      (640-1024) → 2 cols, each tile auto height (pairs)
+     * lg      (≥ 1024px) → 4 cols, fixed row height 280px
+     *                       hero tile (row-span-2) = 280*2 + gap = ~585px
+     *                       wide tiles (col-span-2) fill the row naturally
+     *
+     * Key: grid-rows-[280px] on lg ensures ALL tiles in the same row
+     * share exactly the same height. The wrapper div and BentoTile both
+     * carry h-full so the tile stretches to fill its grid cell.
      */
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-auto gap-5">
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-[280px]">
       {apps.map((app) => (
-        <div key={app.id} className={getGridClasses(app.gridSize)}>
+        <div key={app.id} className={`${getGridClasses(app.gridSize)} h-full`}>
           <BentoTile
             app={app}
             onClick={() => onAppClick(app)}
