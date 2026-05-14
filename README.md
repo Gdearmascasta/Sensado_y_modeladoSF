@@ -1,6 +1,6 @@
 # Sensado y Modelado de Sistemas Físicos
 
-Repositorio dedicado a documentar y centralizar todas las actividades, prácticas y códigos desarrollados en la asignatura de **Sensado y Modelado de Sistemas Físicos**. Este espacio integra herramientas avanzadas de visión computacional, análisis numérico y simulaciones interactivas para el estudio de sistemas físicos.
+Repositorio dedicado a documentar y centralizar todas las actividades, prácticas y códigos desarrollados en la asignatura de **Sensado y Modelado de Sistemas Físicos**. Este espacio integra herramientas avanzadas de visión computacional, análisis numérico, teledetección y simulaciones interactivas para el estudio de sistemas físicos.
 
 ---
 
@@ -28,7 +28,7 @@ Para iniciar cualquier módulo, simplemente selecciona una tarjeta y el lanzador
 
 ## 🚀 Aplicaciones del Laboratorio
 
-El repositorio se divide en 4 grandes bloques experimentales, cada uno con su propia arquitectura cliente-servidor:
+El repositorio se divide en **5 bloques experimentales**, cada uno con su propia arquitectura cliente-servidor:
 
 ### 1. Estimación Manual de Gravedad (`01_manual_gravity_estimation/`)
 Análisis tradicional donde el usuario ingresa datos de tiempo y posición de un objeto en caída libre. Utiliza ajustes de curva (`curve_fit`) para estimar la gravedad evaluando modelos teóricos.
@@ -58,6 +58,16 @@ Estudia el movimiento armónico simple. Utiliza seguimiento de color para obtene
   <img src="bento-launcher/public/imgs/pendulo-app.png" width="800" alt="Simple Pendulum Analyzer">
 </p>
 
+### 5. Imágenes Satelitales — Clasificación de Cobertura Terrestre (`05_satellite_images/`)
+Aplicación web que consulta imágenes **Sentinel-2 L2A** del catálogo STAC de Microsoft Planetary Computer, descarga bandas espectrales, calcula índices (NDVI, BSI, NDWI) y entrena un clasificador **Random Forest** con pseudo-etiquetado para generar un mapa de cobertura terrestre (Vegetación / Agua / Minería / No clasificado).
+
+El flujo guiado de 5 pasos permite:
+- Configurar zona de interés, rango temporal y umbral de nubosidad
+- Descargar bandas y visualizar el True Color Preview
+- Explorar los índices espectrales con sus colormaps
+- Ajustar umbrales de pseudo-etiquetado y entrenar el modelo
+- Visualizar y exportar el mapa clasificado en PNG y GeoTIFF
+
 ---
 
 ## 🛠️ Ejecución del Ecosistema
@@ -72,9 +82,31 @@ Para disfrutar de la experiencia completa, lo más recomendable es utilizar el l
    npm run dev
    ```
 2. **Acceder a la interfaz:**
-   Abre [http://localhost:5173](http://localhost:5173) en tu navegador.
+   Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 3. **Lanzar Apps:**
-   Haz clic en "Lanzar App" en cualquiera de las tarjetas para que el sistema orqueste automáticamente los backends de Python y los frontends de React correspondientes.
+   Haz clic en cualquier tarjeta para ver los comandos de lanzamiento del backend y frontend correspondientes.
+
+### 🔌 Puertos del ecosistema
+
+| App | Frontend | Backend |
+|-----|----------|---------|
+| Bento Launcher | :3000 | — |
+| 01 Estimación Manual | :5173 | :8001 |
+| 02 Gravity Tracker | :5174 | :8000 |
+| 03 Coeficiente Restitución | :5175 | :8002 |
+| 04 Péndulo Simple | :5176 | :8003 |
+| 05 Imágenes Satelitales | :5177 | :8004 |
 
 ---
 
+## 🛠️ Stack Tecnológico Común
+
+| Capa | Tecnología |
+|------|-----------|
+| Backend | Python 3, FastAPI, uvicorn |
+| Frontend | React 19, TypeScript, Vite 8, Tailwind CSS |
+| Visión Computacional | OpenCV |
+| Análisis Numérico | numpy, scipy |
+| Machine Learning | scikit-learn |
+| Teledetección | rasterio, pystac-client, planetary-computer |
+| Visualización | Recharts, Matplotlib |
