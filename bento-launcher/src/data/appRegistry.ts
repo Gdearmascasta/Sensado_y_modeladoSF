@@ -2,14 +2,15 @@ import type { AppDefinition } from '../types';
 import { Weight, Crosshair, Repeat2, Clock, Satellite } from 'lucide-react';
 
 export const appRegistry: AppDefinition[] = [
-  // ── 01 — Estimación Manual de Gravedad ──
+  // ── 01 — Estimación Manual de Gravedad ──────────────────────────────────
+  // 1×1: tile compacto, introductorio
   {
     id: 'manual-gravity',
     name: 'Estimación Manual de Gravedad',
     description:
       'Ingresa datos de tiempo y posición de un objeto en caída libre para estimar g usando ajuste de curva (curve_fit). Visualiza la trayectoria experimental vs. el modelo teórico y = ½gt².',
     icon: Weight,
-    accentColor: '#f59e0b', // Amber/Teal glow base
+    accentColor: '#f59e0b',
     gridSize: { colSpan: 1, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5173',
@@ -25,15 +26,16 @@ export const appRegistry: AppDefinition[] = [
     ],
   },
 
-  // ── 02 — Gravity Tracker Automatizado ──
+  // ── 02 — Gravity Tracker Automatizado ───────────────────────────────────
+  // 2×2 HERO: la más visual, la parábola animada merece espacio
   {
     id: 'gravity-tracker-web',
     name: 'Gravity Tracker — Automatizado',
     description:
       'Suite analítica avanzada que estima g procesando cinemáticamente videos de caída libre con visión computacional, calibración px→m y ajustes numéricos de alta fidelidad.',
     icon: Crosshair,
-    accentColor: '#06b6d4', // Cyan/Blue glow base
-    gridSize: { colSpan: 1, rowSpan: 1 },
+    accentColor: '#06b6d4',
+    gridSize: { colSpan: 2, rowSpan: 2 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5174',
     launchSteps: [
@@ -48,14 +50,15 @@ export const appRegistry: AppDefinition[] = [
     ],
   },
 
-  // ── 03 — Coeficiente de Restitución ──
+  // ── 03 — Coeficiente de Restitución ─────────────────────────────────────
+  // 1×1: tile compacto, rebotes en miniatura
   {
     id: 'restitution-calculator',
-    name: 'Coeficiente de Restitución — Automatizado',
+    name: 'Coeficiente de Restitución',
     description:
       'Detecta automáticamente los rebotes procesando video con visión computacional. Calcula el coeficiente de restitución analizando las alturas y visualiza la decadencia energética.',
     icon: Repeat2,
-    accentColor: '#8b5cf6', // Violet
+    accentColor: '#8b5cf6',
     gridSize: { colSpan: 1, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5175',
@@ -71,15 +74,16 @@ export const appRegistry: AppDefinition[] = [
     ],
   },
 
-  // ── 04 — Péndulo Simple ──
+  // ── 04 — Péndulo Simple ──────────────────────────────────────────────────
+  // 2×1: la onda sinusoidal de la FFT se luce en horizontal
   {
     id: 'simple-pendulum',
     name: 'Péndulo Simple — Automatizado',
     description:
       'Analiza el período de oscilación procesando video en tiempo real. Usa visión computacional y FFT para encontrar la frecuencia dominante, estimando la gravedad automáticamente.',
     icon: Clock,
-    accentColor: '#3b82f6', // Blue
-    gridSize: { colSpan: 1, rowSpan: 1 },
+    accentColor: '#3b82f6',
+    gridSize: { colSpan: 2, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5176',
     launchSteps: [
@@ -94,14 +98,15 @@ export const appRegistry: AppDefinition[] = [
     ],
   },
 
-  // ── 05 — Imágenes Satelitales ──
+  // ── 05 — Imágenes Satelitales ────────────────────────────────────────────
+  // 2×1: el mapa de clasificación se luce en horizontal
   {
     id: 'satellite-images',
     name: 'Imágenes Satelitales — Clasificación',
     description:
       'Consulta imágenes Sentinel-2 del catálogo STAC de Planetary Computer, descarga bandas espectrales, calcula índices NDVI/BSI/NDWI y entrena un clasificador Random Forest para mapear vegetación, agua y minería.',
     icon: Satellite,
-    accentColor: '#10b981', // Emerald
+    accentColor: '#10b981',
     gridSize: { colSpan: 2, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5177',

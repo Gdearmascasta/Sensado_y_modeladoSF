@@ -1,4 +1,5 @@
 import type { AppDefinition } from '../types';
+import { getGridClasses } from '../utils/gridUtils';
 import BentoTile from './BentoTile';
 
 interface BentoGridProps {
@@ -20,14 +21,24 @@ export default function BentoGrid({ apps, onAppClick, appStates }: BentoGridProp
   }
 
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+    /*
+     * Responsive grid:
+     *   mobile  → 1 column
+     *   sm      → 2 columns
+     *   lg      → 4 columns (true bento asymmetry)
+     *
+     * Each tile declares its own col-span / row-span via getGridClasses().
+     * grid-rows: auto lets tiles with rowSpan:2 expand naturally.
+     */
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-auto gap-5">
       {apps.map((app) => (
-        <BentoTile
-          key={app.id}
-          app={app}
-          onClick={() => onAppClick(app)}
-          status={appStates[app.id] || 'idle'}
-        />
+        <div key={app.id} className={getGridClasses(app.gridSize)}>
+          <BentoTile
+            app={app}
+            onClick={() => onAppClick(app)}
+            status={appStates[app.id] || 'idle'}
+          />
+        </div>
       ))}
     </div>
   );
