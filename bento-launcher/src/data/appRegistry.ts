@@ -1,5 +1,5 @@
 import type { AppDefinition } from '../types';
-import { Weight, Crosshair, Repeat2, Clock } from 'lucide-react';
+import { Weight, Crosshair, Repeat2, Clock, Satellite } from 'lucide-react';
 
 export const appRegistry: AppDefinition[] = [
   // ── 01 — Estimación Manual de Gravedad ──
@@ -90,6 +90,29 @@ export const appRegistry: AppDefinition[] = [
       {
         label: '2. Iniciar Frontend (React — puerto 5176)',
         command: 'cd 04_simple_pendulum/frontend && npm install && npm run dev',
+      },
+    ],
+  },
+
+  // ── 05 — Imágenes Satelitales ──
+  {
+    id: 'satellite-images',
+    name: 'Imágenes Satelitales — Clasificación',
+    description:
+      'Consulta imágenes Sentinel-2 del catálogo STAC de Planetary Computer, descarga bandas espectrales, calcula índices NDVI/BSI/NDWI y entrena un clasificador Random Forest para mapear vegetación, agua y minería.',
+    icon: Satellite,
+    accentColor: '#10b981', // Emerald
+    gridSize: { colSpan: 2, rowSpan: 1 },
+    launchType: 'comando_local',
+    previewUrl: 'http://localhost:5177',
+    launchSteps: [
+      {
+        label: '1. Iniciar Backend (FastAPI — puerto 8004)',
+        command: 'cd 05_satellite_images/backend && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 8004 --reload',
+      },
+      {
+        label: '2. Iniciar Frontend (React — puerto 5177)',
+        command: 'cd 05_satellite_images/frontend && npm install && npm run dev',
       },
     ],
   },
