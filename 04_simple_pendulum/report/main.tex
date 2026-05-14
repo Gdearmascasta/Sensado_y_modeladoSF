@@ -108,8 +108,6 @@ El presente reporte documenta el diseño, implementación y validación de un si
     \item \textbf{Fase de productización} — los hallazgos del notebook se encapsularon en una aplicación web interactiva (React + FastAPI) integrada al ecosistema \textbf{Bento Launcher}.
 \end{enumerate}
 
-La narrativa del documento sigue el flujo natural del trabajo: fundamentos teóricos, implementación detallada en el notebook, y finalmente la materialización en la aplicación web.
-
 \subsection{Planteamiento del problema}
 
 El péndulo simple es uno de los sistemas dinámicos más estudiados en física. Su periodo de oscilación depende de la longitud de la cuerda y de la aceleración gravitatoria, lo que lo convierte en un instrumento clásico para estimar $g$. Sin embargo, medir el periodo manualmente presenta limitaciones:
@@ -441,6 +439,13 @@ Los algoritmos validados en el notebook se trasladaron a una arquitectura client
     \item \textbf{Frontend} (React + Vite, puerto 5176): interfaz interactiva con paneles de carga de video, calibración HSV, visualización de trayectoria en tiempo real y presentación consolidada de resultados.
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{imgs/pendulo-app.png}
+    \caption{Vista general de la aplicación web del Péndulo Simple integrada al Bento Launcher.}
+    \label{fig:app-overview}
+\end{figure}
+
 \subsection{Lanzamiento desde el Bento Launcher}
 
 Al seleccionar la tarjeta ``Péndulo Simple'' en el menú central del Bento Launcher, el sistema orquesta automáticamente el arranque del backend y el frontend, mostrando el progreso en una terminal integrada.
@@ -588,6 +593,7 @@ El ajuste exponencial de la envolvente de amplitudes (Figura~\ref{fig:amortiguam
     \item Nelson, R.A. \& Olsson, M.G. (1986). \textit{The pendulum — Rich physics from a simple system}. American Journal of Physics, 54(2), 112--121.
     \item Borda, J.C. (1792). \textit{Description et usage du cercle de réflexion}. Bachelier, París.
     \item Oppenheim, A.V. \& Willsky, A.S. (1997). \textit{Signals and Systems}. 2da edición, Prentice Hall.
+    \item De Armas Castaño, G. et al. (2025). \textit{Sensado y Modelado de Sistemas Físicos — Repositorio del curso}. Universidad Tecnológica de Bolívar. Disponible en: \url{https://github.com/Gdearmascasta/Sensado_y_modeladoSF}
 \end{enumerate}
 
 \end{document}
