@@ -108,8 +108,6 @@ El presente reporte documenta el diseño, implementación y validación de un si
     \item \textbf{Fase de productización} — los hallazgos del notebook se encapsularon en una aplicación web interactiva (React + FastAPI) integrada al ecosistema \textbf{Bento Launcher}, permitiendo que cualquier usuario reproduzca el análisis sin necesidad de escribir código.
 \end{enumerate}
 
-Este documento sigue la narrativa natural del flujo de trabajo: primero se exponen los fundamentos teóricos, luego se detalla paso a paso cómo se implementó cada etapa en el notebook, y finalmente se muestra cómo la aplicación web materializa dichos hallazgos en una interfaz accesible.
-
 \subsection{Planteamiento del problema}
 
 El coeficiente de restitución cuantifica la fracción de energía cinética que se conserva tras un impacto. Medirlo manualmente — observando a simple vista las alturas sucesivas de un objeto que rebota — introduce errores significativos debido a:
@@ -403,6 +401,13 @@ Los algoritmos validados en el notebook se trasladaron a una arquitectura client
     \item \textbf{Frontend} (React + Vite, puerto 5175): interfaz interactiva con paneles de carga de video, calibración HSV visual, visualización de trayectoria y presentación de resultados.
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{imgs/app.png}
+    \caption{Vista general de la aplicación web del Coeficiente de Restitución integrada al Bento Launcher.}
+    \label{fig:app-overview}
+\end{figure}
+
 \subsection{Lanzamiento desde el Bento Launcher}
 
 El flujo inicia desde el menú central del Bento Launcher. Al seleccionar la tarjeta ``Coeficiente de Restitución'', el sistema orquesta automáticamente el arranque del backend y el frontend, mostrando el progreso en una terminal integrada.
@@ -540,6 +545,7 @@ La automatización del proceso de medición mediante visión computacional ofrec
     \item Harris, C.R. et al. (2020). \textit{Array programming with NumPy}. Nature, 585, 357--362.
     \item Hunter, J.D. (2007). \textit{Matplotlib: A 2D Graphics Environment}. Computing in Science \& Engineering, 9(3), 90--95.
     \item Cross, R. (1999). \textit{The bounce of a ball}. American Journal of Physics, 67(3), 222--227.
+    \item De Armas Castaño, G. et al. (2025). \textit{Sensado y Modelado de Sistemas Físicos — Repositorio del curso}. Universidad Tecnológica de Bolívar. Disponible en: \url{https://github.com/Gdearmascasta/Sensado_y_modeladoSF}
 \end{enumerate}
 
 \end{document}
