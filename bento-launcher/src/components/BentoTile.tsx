@@ -17,7 +17,8 @@ const glowMap: Record<string, string> = {
 };
 
 function isHero(app: AppDefinition) {
-  return app.gridSize.colSpan === 2 && app.gridSize.rowSpan === 2;
+  // Treat any tile that occupies ≥4 grid cells as the hero/centerpiece.
+  return app.gridSize.colSpan * app.gridSize.rowSpan >= 4;
 }
 
 export default function BentoTile({ app, onClick, status }: BentoTileProps) {

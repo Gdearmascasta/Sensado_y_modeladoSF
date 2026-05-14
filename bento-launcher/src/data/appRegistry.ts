@@ -35,7 +35,7 @@ export const appRegistry: AppDefinition[] = [
       'Suite analítica avanzada que estima g procesando cinemáticamente videos de caída libre con visión computacional, calibración px→m y ajustes numéricos de alta fidelidad.',
     icon: Crosshair,
     accentColor: '#06b6d4',
-    gridSize: { colSpan: 2, rowSpan: 2 },
+    gridSize: { colSpan: 3, rowSpan: 2 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5174',
     launchSteps: [

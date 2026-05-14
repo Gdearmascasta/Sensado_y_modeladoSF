@@ -2,7 +2,7 @@ import { ElementType } from 'react';
 
 export type LaunchType = 'enlace_web' | 'comando_local' | 'notebook' | 'documento' | 'info';
 
-export type GridSize = { colSpan: 1 | 2; rowSpan: 1 | 2 };
+export type GridSize = { colSpan: 1 | 2 | 3; rowSpan: 1 | 2 };
 
 export interface LaunchStep {
   label: string;

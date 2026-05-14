@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { AppDefinition } from './types';
 import { appRegistry } from './data/appRegistry';
-import Header from './components/Header';
 import BentoGrid from './components/BentoGrid';
 import AppLauncherManager from './components/AppLauncherManager';
 
@@ -35,7 +34,7 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-background text-white overflow-hidden font-sans selection:bg-primary/30">
+    <div className="relative min-h-screen overflow-hidden bg-background font-sans text-white selection:bg-primary/30">
       {/* ── Background layers ── */}
 
       {/* Deep technical blueprint grid */}
@@ -44,10 +43,10 @@ function App() {
 
       {/* Ghosted mathematical symbols */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-10">
-        <div className="absolute top-[15%] left-[10%] text-9xl font-serif text-white transform -rotate-12 blur-[2px]">&sum;</div>
-        <div className="absolute bottom-[20%] right-[15%] text-[12rem] font-serif text-white transform rotate-6 blur-[3px]">&int;</div>
-        <div className="absolute top-[60%] left-[5%] text-8xl font-serif text-white transform rotate-12 blur-[1px]">&part;</div>
-        <div className="absolute top-[30%] right-[8%] text-8xl font-serif text-white transform -rotate-6 blur-[2px]">&nabla;</div>
+        <div className="absolute left-[10%] top-[15%] -rotate-12 transform font-serif text-9xl text-white blur-[2px]">&sum;</div>
+        <div className="absolute bottom-[20%] right-[15%] rotate-6 transform font-serif text-[12rem] text-white blur-[3px]">&int;</div>
+        <div className="absolute left-[5%] top-[60%] rotate-12 transform font-serif text-8xl text-white blur-[1px]">&part;</div>
+        <div className="absolute right-[8%] top-[30%] -rotate-6 transform font-serif text-8xl text-white blur-[2px]">&nabla;</div>
       </div>
 
       {/* Ghosted vector force arrows (SVG) */}
@@ -68,20 +67,17 @@ function App() {
       </div>
 
       {/* Ambient orbs */}
-      <div className="pointer-events-none absolute -top-48 -left-48 h-[800px] w-[800px] rounded-full bg-blue-600/[0.04] mix-blend-screen blur-[150px]" />
+      <div className="pointer-events-none absolute -left-48 -top-48 h-[800px] w-[800px] rounded-full bg-blue-600/[0.04] mix-blend-screen blur-[150px]" />
       <div className="pointer-events-none absolute -bottom-48 -right-48 h-[800px] w-[800px] rounded-full bg-violet-600/[0.04] mix-blend-screen blur-[150px]" />
-      <div className="pointer-events-none absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-600/[0.02] mix-blend-screen blur-[120px]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-600/[0.02] mix-blend-screen blur-[120px]" />
 
       {/* Noise texture */}
       <div className="pointer-events-none absolute inset-0 noise-overlay" />
 
-      {/* ── Content ── */}
-      <div className="relative z-10">
-        <Header />
-        <main className="mx-auto max-w-6xl px-6 sm:px-8 pb-16">
-          <BentoGrid apps={appRegistry} onAppClick={handleAppClick} appStates={appStates} />
-        </main>
-      </div>
+      {/* ── Content — pure bento, no separate header ── */}
+      <main className="relative z-10 mx-auto max-w-6xl px-6 py-10 sm:px-8 sm:py-14">
+        <BentoGrid apps={appRegistry} onAppClick={handleAppClick} appStates={appStates} />
+      </main>
 
       <AppLauncherManager
         app={selectedApp}
