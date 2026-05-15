@@ -1,6 +1,7 @@
 import type { AppDefinition } from '../types';
 import { getGridClasses } from '../utils/gridUtils';
 import BentoTile from './BentoTile';
+import EditorialTile from './EditorialTile';
 import HeroTile from './HeroTile';
 import TopicsTile from './TopicsTile';
 
@@ -49,6 +50,22 @@ export default function BentoGrid({ apps, onAppClick, appStates }: BentoGridProp
   const heroApp   = apps.find((a) => a.gridSize.colSpan === 3 && a.gridSize.rowSpan === 2);
   const wideApps  = apps.filter((a) => a.gridSize.colSpan === 2 && a.gridSize.rowSpan === 1);
 
+  /**
+   * Pick the right tile renderer:
+   *   - apps with editorial meta → EditorialTile (new científico-técnico style)
+   *   - apps without meta        → BentoTile (legacy)
+   * This lets us migrate tiles one by one without breaking the layout.
+   */
+  const renderTile = (app: AppDefinition) => {
+    const status = appStates[app.id] || 'idle';
+    if (app.meta) {
+      return (
+        <EditorialTile app={app} onClick={() => onAppClick(app)} status={status} />
+      );
+    }
+    return <BentoTile app={app} onClick={() => onAppClick(app)} status={status} />;
+  };
+
   return (
     <div className="grid auto-rows-[minmax(160px,auto)] grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-flow-dense lg:grid-cols-4">
 
@@ -59,22 +76,14 @@ export default function BentoGrid({ apps, onAppClick, appStates }: BentoGridProp
 
       {smallApps.map((app) => (
         <div key={app.id} className={getGridClasses(app.gridSize)}>
-          <BentoTile
-            app={app}
-            onClick={() => onAppClick(app)}
-            status={appStates[app.id] || 'idle'}
-          />
+          {renderTile(app)}
         </div>
       ))}
 
       {/* ── Rows 2-3: Hero block (3/4) + Topics sidebar (1/4) ── */}
       {heroApp && (
         <div className={getGridClasses(heroApp.gridSize)}>
-          <BentoTile
-            app={heroApp}
-            onClick={() => onAppClick(heroApp)}
-            status={appStates[heroApp.id] || 'idle'}
-          />
+          {renderTile(heroApp)}
         </div>
       )}
 
@@ -85,11 +94,7 @@ export default function BentoGrid({ apps, onAppClick, appStates }: BentoGridProp
       {/* ── Row 4: wide apps ── */}
       {wideApps.map((app) => (
         <div key={app.id} className={getGridClasses(app.gridSize)}>
-          <BentoTile
-            app={app}
-            onClick={() => onAppClick(app)}
-            status={appStates[app.id] || 'idle'}
-          />
+          {renderTile(app)}
         </div>
       ))}
     </div>

@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Editorial fonts: serif for formulas/headlines, mono for tech values ── */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+.font-serif-display {
+  font-family: 'Newsreader', 'Iowan Old Style', 'Source Serif Pro', Georgia, serif;
+  font-feature-settings: "ss01", "ss02";
+}
+
+.font-mono-tech {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Menlo', 'Consolas', monospace;
+  font-feature-settings: "calt", "ss03";
+}
+
 /* ── Base ── */
 body {
   background: radial-gradient(circle at 50% 0%, #171721 0%, #030308 80%);

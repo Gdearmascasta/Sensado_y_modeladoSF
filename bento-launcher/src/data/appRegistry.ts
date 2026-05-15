@@ -13,6 +13,14 @@ export const appRegistry: AppDefinition[] = [
     gridSize: { colSpan: 1, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5173',
+    meta: {
+      tag: 'MECÁNICA · CAÍDA LIBRE',
+      equation: 'y = ½ g t²',
+      // TODO: reemplazar con tu valor experimental real de g
+      metric: { label: 'g estimada', value: '9.81 m/s²' },
+      stack: 'scipy · FastAPI · React',
+      tagline: 'Ajuste de curva sobre datos manuales.',
+    },
     launchSteps: [
       {
         label: '1. Iniciar Backend (FastAPI — puerto 8001)',
@@ -37,6 +45,14 @@ export const appRegistry: AppDefinition[] = [
     gridSize: { colSpan: 3, rowSpan: 2 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5174',
+    meta: {
+      tag: 'VISIÓN COMPUTACIONAL · CINEMÁTICA',
+      equation: 'y(t) = y₀ + v₀t + ½ g t²',
+      // TODO: reemplazar con tu valor experimental real de g por video
+      metric: { label: 'g por video', value: '9.76 m/s²' },
+      stack: 'OpenCV · NumPy · FastAPI · React',
+      tagline: 'Tracking px→m frame a frame, ajuste parabólico.',
+    },
     launchSteps: [
       {
         label: '1. Iniciar Backend (FastAPI — puerto 8000)',
@@ -60,6 +76,14 @@ export const appRegistry: AppDefinition[] = [
     gridSize: { colSpan: 1, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5175',
+    meta: {
+      tag: 'MECÁNICA · COLISIONES',
+      equation: 'e = √(hₙ₊₁ / hₙ)',
+      // TODO: reemplazar con tu valor experimental real de e
+      metric: { label: 'e medido', value: '0.72' },
+      stack: 'OpenCV · FastAPI · React',
+      tagline: 'Decadencia exponencial de alturas de rebote.',
+    },
     launchSteps: [
       {
         label: '1. Iniciar Backend (FastAPI — puerto 8002)',
@@ -83,6 +107,14 @@ export const appRegistry: AppDefinition[] = [
     gridSize: { colSpan: 2, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5176',
+    meta: {
+      tag: 'MECÁNICA · OSCILACIONES',
+      equation: 'T = 2π √(L⁄g)',
+      // TODO: reemplazar con tu valor experimental real de T y g
+      metric: { label: 'g estimada', value: '9.78 m/s²' },
+      stack: 'OpenCV · FFT · FastAPI',
+      tagline: 'Frecuencia dominante por FFT sobre video.',
+    },
     launchSteps: [
       {
         label: '1. Iniciar Backend (FastAPI — puerto 8003)',
@@ -106,6 +138,14 @@ export const appRegistry: AppDefinition[] = [
     gridSize: { colSpan: 2, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5177',
+    meta: {
+      tag: 'SENSADO REMOTO · CLASIFICACIÓN',
+      equation: 'NDVI = (NIR − R) / (NIR + R)',
+      // TODO: reemplazar con tu área clasificada real o % de cobertura
+      metric: { label: 'bandas Sentinel-2', value: 'B02 B03 B04 B08' },
+      stack: 'STAC · scikit-learn · FastAPI · React',
+      tagline: 'Random Forest sobre índices NDVI / BSI / NDWI.',
+    },
     launchSteps: [
       {
         label: '1. Iniciar Backend (FastAPI — puerto 8004)',
