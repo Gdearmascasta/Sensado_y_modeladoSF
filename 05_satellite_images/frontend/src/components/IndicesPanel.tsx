@@ -3,7 +3,7 @@ import { BarChart2, Leaf, Mountain, Droplets, ChevronRight, AlertCircle, Loader2
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
-const API_BASE = 'http://localhost:8004';
+const API_BASE = '';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 

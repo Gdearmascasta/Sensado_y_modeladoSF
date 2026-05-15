@@ -4,7 +4,7 @@ import type { SearchResponse } from '../types';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
-const API_BASE = 'http://localhost:8004';
+const API_BASE = '';
 
 const DEFAULT_BBOX: [number, number, number, number] = [-74.85, 7.55, -74.75, 7.65];
 const DEFAULT_DATE_START = '2023-01-01';

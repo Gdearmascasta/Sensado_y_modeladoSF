@@ -19,7 +19,7 @@ import LogConsole from './LogConsole';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
-const API_BASE = 'http://localhost:8004';
+const API_BASE = '';
 
 const DEFAULT_THRESHOLDS = {
   ndvi_veg_min:    0.60,

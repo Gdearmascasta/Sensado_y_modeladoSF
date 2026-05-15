@@ -7,7 +7,7 @@ import LogConsole from './LogConsole';
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
-const API_BASE = 'http://localhost:8004';
+const API_BASE = '';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
