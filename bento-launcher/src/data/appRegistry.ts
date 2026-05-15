@@ -3,7 +3,6 @@ import { Weight, Crosshair, Repeat2, Clock, Satellite } from 'lucide-react';
 
 export const appRegistry: AppDefinition[] = [
   // ── 01 — Estimación Manual de Gravedad ──────────────────────────────────
-  // 1×1: tile compacto, introductorio
   {
     id: 'manual-gravity',
     name: 'Estimación Manual de Gravedad',
@@ -17,7 +16,7 @@ export const appRegistry: AppDefinition[] = [
     launchSteps: [
       {
         label: '1. Iniciar Backend (FastAPI — puerto 8001)',
-        command: 'cd 01_manual_gravity_estimation/backend && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python main.py',
+        command: 'cd 01_manual_gravity_estimation/backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/python main.py',
       },
       {
         label: '2. Iniciar Frontend (React — puerto 5173)',
@@ -27,7 +26,7 @@ export const appRegistry: AppDefinition[] = [
   },
 
   // ── 02 — Gravity Tracker Automatizado ───────────────────────────────────
-  // 2×2 HERO: la más visual, la parábola animada merece espacio
+  // 3×2 HERO: la más visual, merece el bloque central
   {
     id: 'gravity-tracker-web',
     name: 'Gravity Tracker — Automatizado',
@@ -41,7 +40,7 @@ export const appRegistry: AppDefinition[] = [
     launchSteps: [
       {
         label: '1. Iniciar Backend (FastAPI — puerto 8000)',
-        command: 'cd 02_automated_gravity_tracker/backend && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python main.py',
+        command: 'cd 02_automated_gravity_tracker/backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/python main.py',
       },
       {
         label: '2. Iniciar Frontend (React — puerto 5174)',
@@ -51,7 +50,6 @@ export const appRegistry: AppDefinition[] = [
   },
 
   // ── 03 — Coeficiente de Restitución ─────────────────────────────────────
-  // 1×1: tile compacto, rebotes en miniatura
   {
     id: 'restitution-calculator',
     name: 'Coeficiente de Restitución',
@@ -65,7 +63,7 @@ export const appRegistry: AppDefinition[] = [
     launchSteps: [
       {
         label: '1. Iniciar Backend (FastAPI — puerto 8002)',
-        command: 'cd 03_coefficient_restitution/backend && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python main.py',
+        command: 'cd 03_coefficient_restitution/backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/python main.py',
       },
       {
         label: '2. Iniciar Frontend (React — puerto 5175)',
@@ -75,7 +73,6 @@ export const appRegistry: AppDefinition[] = [
   },
 
   // ── 04 — Péndulo Simple ──────────────────────────────────────────────────
-  // 2×1: la onda sinusoidal de la FFT se luce en horizontal
   {
     id: 'simple-pendulum',
     name: 'Péndulo Simple — Automatizado',
@@ -89,7 +86,7 @@ export const appRegistry: AppDefinition[] = [
     launchSteps: [
       {
         label: '1. Iniciar Backend (FastAPI — puerto 8003)',
-        command: 'cd 04_simple_pendulum/backend && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python main.py',
+        command: 'cd 04_simple_pendulum/backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/python main.py',
       },
       {
         label: '2. Iniciar Frontend (React — puerto 5176)',
@@ -99,7 +96,6 @@ export const appRegistry: AppDefinition[] = [
   },
 
   // ── 05 — Imágenes Satelitales ────────────────────────────────────────────
-  // 2×1: el mapa de clasificación se luce en horizontal
   {
     id: 'satellite-images',
     name: 'Imágenes Satelitales — Clasificación',
@@ -113,7 +109,7 @@ export const appRegistry: AppDefinition[] = [
     launchSteps: [
       {
         label: '1. Iniciar Backend (FastAPI — puerto 8004)',
-        command: 'cd 05_satellite_images/backend && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 8004 --reload',
+        command: 'cd 05_satellite_images/backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/uvicorn main:app --host 0.0.0.0 --port 8004 --reload',
       },
       {
         label: '2. Iniciar Frontend (React — puerto 5177)',
