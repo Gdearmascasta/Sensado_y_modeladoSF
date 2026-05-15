@@ -45,11 +45,50 @@ export default function AppLauncherManager({ app, isOpen, onClose, status, setSt
     } catch (e) { console.error(e); }
   };
 
+  // Poll real logs from the backend
+  const logPollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const lastLogCountRef = useRef(0);
+
+  const startLogPolling = (appId: string) => {
+    if (logPollRef.current) clearInterval(logPollRef.current);
+    lastLogCountRef.current = 0;
+    logPollRef.current = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/logs/${appId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.logs && data.logs.length > lastLogCountRef.current) {
+            // Only append NEW log lines (ones we haven't seen yet)
+            const newLines = data.logs.slice(lastLogCountRef.current);
+            lastLogCountRef.current = data.logs.length;
+            setLogs(prev => [...prev, ...newLines]);
+          }
+        }
+      } catch { /* ignore polling errors */ }
+    }, 2000);
+  };
+
+  const stopLogPolling = () => {
+    if (logPollRef.current) {
+      clearInterval(logPollRef.current);
+      logPollRef.current = null;
+    }
+  };
+
+  // Cleanup polling on unmount or close
+  useEffect(() => {
+    if (!isOpen) stopLogPolling();
+    return () => stopLogPolling();
+  }, [isOpen]);
+
   const launchAll = async () => {
     if (!app || !app.launchSteps) return;
     setStatus('launching');
     setLaunchProgress(0);
     setLogs(['> Iniciando secuencia de arranque...']);
+
+    // Start polling logs immediately
+    startLogPolling(app.id);
 
     for (let i = 0; i < app.launchSteps.length; i++) {
       const step = app.launchSteps[i];
@@ -61,19 +100,26 @@ export default function AppLauncherManager({ app, isOpen, onClose, status, setSt
           body: JSON.stringify({ command: step.command, appId: app.id }),
         });
         if (response.ok) {
-          setLogs(prev => [...prev, `  [OK] ${step.label} iniciado correctamente.`]);
+          setLogs(prev => [...prev, `  [OK] ${step.label} — comando enviado.`]);
         } else {
           setLogs(prev => [...prev, `  [ERROR] Fallo al iniciar ${step.label}.`]);
         }
         setLaunchProgress(Math.floor(((i + 1) / app.launchSteps!.length) * 100));
-        await new Promise(r => setTimeout(r, 1500));
+        // Wait a bit longer to let the process start and produce output
+        await new Promise(r => setTimeout(r, 3000));
       } catch (e) {
         setLogs(prev => [...prev, `  [FATAL] Error de conexión: ${String(e)}`]);
       }
     }
 
-    setLogs(prev => [...prev, '> Todos los sistemas activos.']);
-    setTimeout(() => setStatus('running'), 2000);
+    setLogs(prev => [...prev, '> Todos los comandos enviados. Verificando estado...']);
+    // Give extra time for processes to start, then transition
+    await new Promise(r => setTimeout(r, 3000));
+    setLogs(prev => [...prev, '> Sistemas activos.']);
+    setTimeout(() => {
+      stopLogPolling();
+      setStatus('running');
+    }, 1000);
   };
 
   if (!isOpen || !app) return null;
