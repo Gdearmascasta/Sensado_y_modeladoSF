@@ -1,93 +1,192 @@
 /**
- * SatelliteVisual — mini-mapa de clasificación de cobertura terrestre.
- * Una grilla de píxeles con los colores de las 3 clases del clasificador:
- *   verde  → vegetación  (NDVI alto)
- *   azul   → agua        (NDWI alto)
- *   arena  → minería/suelo desnudo (BSI alto)
- * Simula la salida del Random Forest sobre la escena Sentinel-2.
+ * SatelliteVisual — imagen NDVI real de Sentinel-2.
+ *
+ * Dos modos:
+ *   • hero=true  — panel grande (3×2): imagen cubre todo con object-cover,
+ *                  overlays SVG absolutos encima.
+ *   • hero=false — panel lateral estrecho (2×1): SVG con <image> y meet
+ *                  para que la imagen se vea completa con margen.
  */
-interface Props { accent: string }
-
-// Deterministic pseudo-random using a simple LCG seeded by position
-function lcg(seed: number): number {
-  return ((seed * 1664525 + 1013904223) & 0xffffffff) / 0xffffffff;
+interface Props {
+  accent: string;
+  hero?: boolean;
 }
 
-export default function SatelliteVisual({ accent }: Props) {
-  const W = 200;
-  const H = 120;
-  const cols = 20;
-  const rows = 12;
-  const pw = W / cols;
-  const ph = H / rows;
+const OVERLAYS = (W: number, H: number) => (
+  <>
+    <defs>
+      <radialGradient id="sv-vignette" cx="50%" cy="50%" r="72%">
+        <stop offset="40%" stopColor="transparent" />
+        <stop offset="100%" stopColor="rgba(0,0,0,0.65)" />
+      </radialGradient>
+      <linearGradient id="sv-topbar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"  stopColor="rgba(0,0,0,0.50)" />
+        <stop offset="28%" stopColor="rgba(0,0,0,0.00)" />
+      </linearGradient>
+      <linearGradient id="sv-botbar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="68%" stopColor="rgba(0,0,0,0.00)" />
+        <stop offset="100%" stopColor="rgba(0,0,0,0.60)" />
+      </linearGradient>
+    </defs>
 
-  // Class color palette (matches the app's classifier output)
-  const classes = [
-    { color: '#22c55e', weight: 0.45 }, // vegetation
-    { color: '#3b82f6', weight: 0.20 }, // water
-    { color: '#d97706', weight: 0.25 }, // mining/bare soil
-    { color: '#1c1917', weight: 0.10 }, // shadow/unclassified
-  ];
+    <rect x="0" y="0" width={W} height={H} fill="url(#sv-vignette)" />
+    <rect x="0" y="0" width={W} height={H} fill="url(#sv-topbar)" />
+    <rect x="0" y="0" width={W} height={H} fill="url(#sv-botbar)" />
 
-  const pixels: { x: number; y: number; color: string }[] = [];
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const seed = r * cols + c;
-      const rnd = Math.abs(lcg(seed));
-      let cumulative = 0;
-      let color = classes[0].color;
-      for (const cls of classes) {
-        cumulative += cls.weight;
-        if (rnd < cumulative) { color = cls.color; break; }
-      }
-      pixels.push({ x: c * pw, y: r * ph, color });
-    }
+    {/* Corner brackets */}
+    <g stroke="rgba(255,255,255,0.65)" strokeWidth="1" fill="none" strokeLinecap="round">
+      <path d={`M 8 18 L 8 10 L 16 10`} />
+      <path d={`M ${W - 16} 10 L ${W - 8} 10 L ${W - 8} 18`} />
+      <path d={`M 8 ${H - 18} L 8 ${H - 10} L 16 ${H - 10}`} />
+      <path d={`M ${W - 16} ${H - 10} L ${W - 8} ${H - 10} L ${W - 8} ${H - 18}`} />
+    </g>
+
+    {/* Coordenada */}
+    <text x="18" y="20" fontFamily="JetBrains Mono, monospace" fontSize="7"
+      fill="rgba(255,255,255,0.72)" letterSpacing="0.5">
+      10°25′N · 75°32′W
+    </text>
+
+    {/* Banda espectral RGB */}
+    <g transform={`translate(${W - 42}, 10)`}>
+      <rect x="0"  y="0" width="9"  height="12" rx="1" fill="#ef4444" opacity="0.88" />
+      <rect x="11" y="0" width="9"  height="12" rx="1" fill="#22c55e" opacity="0.88" />
+      <rect x="22" y="0" width="9"  height="12" rx="1" fill="#3b82f6" opacity="0.88" />
+      <text x="15" y="22" textAnchor="middle" fontFamily="JetBrains Mono, monospace"
+        fontSize="6" fill="rgba(255,255,255,0.55)" letterSpacing="0.5">RGB</text>
+    </g>
+
+    {/* Leyenda */}
+    <g transform={`translate(${W - 68}, ${H - 46})`}>
+      <rect x="-5" y="-5" width="66" height="42" rx="3"
+        fill="rgba(3,3,8,0.68)" stroke="rgba(255,255,255,0.14)" strokeWidth="0.5" />
+      {[
+        { color: '#4ade80', label: 'Vegetación' },
+        { color: '#f87171', label: 'Río / Agua' },
+        { color: '#fbbf24', label: 'Minería' },
+      ].map((item, i) => (
+        <g key={i} transform={`translate(0, ${i * 11})`}>
+          <rect x="0" y="0" width="7" height="7" rx="1" fill={item.color} />
+          <text x="11" y="6.5" fontFamily="JetBrains Mono, monospace"
+            fontSize="7" fill="rgba(255,255,255,0.82)" letterSpacing="0.3">
+            {item.label}
+          </text>
+        </g>
+      ))}
+    </g>
+
+    {/* Label NDVI */}
+    <text x="12" y={H - 10} fontFamily="JetBrains Mono, monospace" fontSize="7"
+      fill="rgba(255,255,255,0.55)" letterSpacing="1">
+      NDVI · Sentinel-2
+    </text>
+  </>
+);
+
+export default function SatelliteVisual({ hero = false }: Props) {
+  /* ── HERO mode: imagen cubre todo el panel, SVG overlay encima ── */
+  if (hero) {
+    return (
+      <div className="absolute inset-0">
+        <img
+          src="/imgs/mapa_clasificacion_mineria.png"
+          alt="Mapa NDVI Sentinel-2"
+          className="h-full w-full object-cover object-center"
+          draggable={false}
+        />
+        <svg
+          viewBox="0 0 600 320"
+          preserveAspectRatio="xMidYMid slice"
+          className="absolute inset-0 h-full w-full"
+          aria-hidden="true"
+        >
+          {OVERLAYS(600, 320)}
+        </svg>
+      </div>
+    );
   }
 
+  /* ── WIDE mode: SVG con <image> meet, imagen completa con margen ── */
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none"
-      className="block w-full h-auto" aria-hidden="true">
+    <svg
+      viewBox="0 0 200 120"
+      preserveAspectRatio="xMidYMid meet"
+      className="block w-full h-auto"
+      aria-hidden="true"
+    >
+      <image
+        href="/imgs/mapa_clasificacion_mineria.png"
+        x="6" y="4"
+        width="188"
+        height="112"
+        preserveAspectRatio="xMidYMid meet"
+      />
+      {/* Overlays ajustados al área de la imagen */}
       <defs>
-        {/* Vignette overlay to give depth */}
-        <radialGradient id="sat-vignette" cx="50%" cy="50%" r="70%">
-          <stop offset="0%" stopColor="transparent" />
-          <stop offset="100%" stopColor="rgba(0,0,0,0.55)" />
+        <radialGradient id="sv-vignette-w" cx="50%" cy="50%" r="72%">
+          <stop offset="40%" stopColor="transparent" />
+          <stop offset="100%" stopColor="rgba(0,0,0,0.65)" />
         </radialGradient>
+        <linearGradient id="sv-topbar-w" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stopColor="rgba(0,0,0,0.48)" />
+          <stop offset="28%" stopColor="rgba(0,0,0,0.00)" />
+        </linearGradient>
+        <linearGradient id="sv-botbar-w" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="68%" stopColor="rgba(0,0,0,0.00)" />
+          <stop offset="100%" stopColor="rgba(0,0,0,0.58)" />
+        </linearGradient>
       </defs>
+      <rect x="6" y="4" width="188" height="112" fill="url(#sv-vignette-w)" rx="3" />
+      <rect x="6" y="4" width="188" height="112" fill="url(#sv-topbar-w)"   rx="3" />
+      <rect x="6" y="4" width="188" height="112" fill="url(#sv-botbar-w)"   rx="3" />
 
-      {/* Pixel grid */}
-      {pixels.map((p, i) => (
-        <rect key={i} x={p.x} y={p.y} width={pw + 0.5} height={ph + 0.5}
-          fill={p.color} opacity="0.82" />
-      ))}
+      {/* Corner brackets */}
+      <g stroke="rgba(255,255,255,0.65)" strokeWidth="0.9" fill="none" strokeLinecap="round">
+        <path d="M 10 14 L 10 8 L 16 8" />
+        <path d="M 184 8 L 190 8 L 190 14" />
+        <path d="M 10 108 L 10 114 L 16 114" />
+        <path d="M 184 114 L 190 114 L 190 108" />
+      </g>
 
-      {/* Vignette */}
-      <rect x="0" y="0" width={W} height={H} fill="url(#sat-vignette)" />
+      {/* Coordenada */}
+      <text x="16" y="15" fontFamily="JetBrains Mono, monospace" fontSize="5"
+        fill="rgba(255,255,255,0.72)" letterSpacing="0.4">
+        10°25′N · 75°32′W
+      </text>
 
-      {/* Scan-line overlay for "satellite imagery" feel */}
-      {Array.from({ length: rows }, (_, r) => (
-        <line key={r} x1="0" y1={r * ph} x2={W} y2={r * ph}
-          stroke="rgba(0,0,0,0.18)" strokeWidth="0.4" />
-      ))}
+      {/* Banda RGB */}
+      <g transform="translate(166, 8)">
+        <rect x="0"  y="0" width="6" height="8" rx="0.5" fill="#ef4444" opacity="0.88" />
+        <rect x="7"  y="0" width="6" height="8" rx="0.5" fill="#22c55e" opacity="0.88" />
+        <rect x="14" y="0" width="6" height="8" rx="0.5" fill="#3b82f6" opacity="0.88" />
+        <text x="10" y="16" textAnchor="middle" fontFamily="JetBrains Mono, monospace"
+          fontSize="4.5" fill="rgba(255,255,255,0.55)" letterSpacing="0.3">RGB</text>
+      </g>
 
-      {/* Legend pills — bottom right */}
-      <g transform={`translate(${W - 58}, ${H - 38})`}>
+      {/* Leyenda */}
+      <g transform="translate(148, 84)">
+        <rect x="-3" y="-3" width="48" height="30" rx="2"
+          fill="rgba(3,3,8,0.65)" stroke="rgba(255,255,255,0.13)" strokeWidth="0.4" />
         {[
-          { color: '#22c55e', label: 'VEG' },
-          { color: '#3b82f6', label: 'H₂O' },
-          { color: '#d97706', label: 'MIN' },
+          { color: '#4ade80', label: 'VEG' },
+          { color: '#f87171', label: 'RÍO' },
+          { color: '#fbbf24', label: 'MIN' },
         ].map((item, i) => (
-          <g key={i} transform={`translate(0, ${i * 12})`}>
-            <rect x="0" y="-7" width="7" height="7" rx="1" fill={item.color} opacity="0.9" />
-            <text x="10" y="0" fontFamily="JetBrains Mono, monospace"
-              fontSize="7" fill="rgba(255,255,255,0.65)">{item.label}</text>
+          <g key={i} transform={`translate(0, ${i * 8})`}>
+            <rect x="0" y="0" width="5.5" height="5.5" rx="0.7" fill={item.color} />
+            <text x="8" y="5" fontFamily="JetBrains Mono, monospace"
+              fontSize="5.5" fill="rgba(255,255,255,0.82)" letterSpacing="0.3">
+              {item.label}
+            </text>
           </g>
         ))}
       </g>
 
-      {/* Accent border */}
-      <rect x="0.5" y="0.5" width={W - 1} height={H - 1}
-        fill="none" stroke={accent} strokeWidth="1" opacity="0.3" rx="2" />
+      {/* Label NDVI */}
+      <text x="11" y="113" fontFamily="JetBrains Mono, monospace" fontSize="5"
+        fill="rgba(255,255,255,0.55)" letterSpacing="0.7">
+        NDVI · Sentinel-2
+      </text>
     </svg>
   );
 }

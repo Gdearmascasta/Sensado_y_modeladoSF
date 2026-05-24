@@ -42,7 +42,7 @@ export const appRegistry: AppDefinition[] = [
       'Suite analítica avanzada que estima g procesando cinemáticamente videos de caída libre con visión computacional, calibración px→m y ajustes numéricos de alta fidelidad.',
     icon: Crosshair,
     accentColor: '#06b6d4',
-    gridSize: { colSpan: 3, rowSpan: 2 },
+    gridSize: { colSpan: 2, rowSpan: 1 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5174',
     meta: {
@@ -135,7 +135,7 @@ export const appRegistry: AppDefinition[] = [
       'Consulta imágenes Sentinel-2 del catálogo STAC de Planetary Computer, descarga bandas espectrales, calcula índices NDVI/BSI/NDWI y entrena un clasificador Random Forest para mapear vegetación, agua y minería.',
     icon: Satellite,
     accentColor: '#10b981',
-    gridSize: { colSpan: 2, rowSpan: 1 },
+    gridSize: { colSpan: 3, rowSpan: 2 },
     launchType: 'comando_local',
     previewUrl: 'http://localhost:5177',
     meta: {

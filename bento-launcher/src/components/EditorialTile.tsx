@@ -37,7 +37,7 @@ export default function EditorialTile({ app, onClick, status }: Props) {
       case 'gravity-tracker-web': return <GravityTrackerVisual accent={app.accentColor} />;
       case 'restitution-calculator': return <RestitutionVisual accent={app.accentColor} />;
       case 'simple-pendulum':     return <PendulumVisual accent={app.accentColor} />;
-      case 'satellite-images':    return <SatelliteVisual accent={app.accentColor} />;
+      case 'satellite-images':    return <SatelliteVisual accent={app.accentColor} hero={isHero} />;
       default: return null;
     }
   })();
@@ -53,11 +53,21 @@ export default function EditorialTile({ app, onClick, status }: Props) {
       className="
         group relative h-full cursor-pointer overflow-hidden rounded-3xl
         border border-white/[0.07] bg-zinc-950/40 backdrop-blur-xl
-        transition-colors duration-300
-        hover:border-white/[0.14] hover:bg-zinc-950/60
+        transition-all duration-500
+        hover:border-white/[0.16] hover:bg-zinc-950/60 hover:-translate-y-1 hover:shadow-2xl
         flex flex-col
       "
+      style={{
+        boxShadow: `0 0 0 0 transparent`,
+      }}
     >
+      {/* Accent glow on hover — subtle radial behind the visual */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-3xl"
+        style={{
+          background: `radial-gradient(ellipse at 30% 50%, ${app.accentColor}12, transparent 65%)`,
+        }}
+      />
       {/* Hairline accent — color signature of the experiment */}
       <div
         className="h-[2px] w-full flex-shrink-0 opacity-80"
@@ -69,10 +79,16 @@ export default function EditorialTile({ app, onClick, status }: Props) {
         <div className="flex flex-1 flex-col">
           {/* Visual — tall panel, 52% of height */}
           <div
-            className="relative flex items-center justify-center border-b border-white/[0.06] px-8 py-6"
+            className={`relative border-b border-white/[0.06] overflow-hidden ${
+              app.id === 'satellite-images'
+                ? ''
+                : 'flex items-center justify-center px-8 py-6'
+            }`}
             style={{
               flex: '0 0 52%',
-              background: 'radial-gradient(ellipse at 50% 60%, rgba(255,255,255,0.025), transparent 70%)',
+              background: app.id === 'satellite-images'
+                ? undefined
+                : 'radial-gradient(ellipse at 50% 60%, rgba(255,255,255,0.025), transparent 70%)',
             }}
           >
             {Visual}
@@ -134,9 +150,9 @@ export default function EditorialTile({ app, onClick, status }: Props) {
         <div className="flex flex-1 flex-col justify-between px-5 py-5">
           {/* Visual — small, top */}
           <div
-            className="relative flex items-center justify-center rounded-xl border border-white/[0.05] px-3 py-3 mb-4"
+            className="relative flex items-center justify-center rounded-xl border border-white/[0.06] px-3 py-3 mb-4 transition-all duration-500 group-hover:border-white/[0.12]"
             style={{
-              background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.025), transparent 70%)',
+              background: `radial-gradient(ellipse at 50% 50%, ${app.accentColor}15, transparent 65%), radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02), transparent 70%)`,
             }}
           >
             {Visual}
@@ -181,9 +197,9 @@ export default function EditorialTile({ app, onClick, status }: Props) {
         <div className="flex flex-1 items-stretch">
           {/* Visual panel — left 42% */}
           <div
-            className="relative flex w-[42%] flex-shrink-0 items-center justify-center border-r border-white/[0.06] px-5 py-6"
+            className="relative flex w-[42%] flex-shrink-0 items-center justify-center border-r border-white/[0.06] px-5 py-6 transition-all duration-500"
             style={{
-              background: 'radial-gradient(circle at 30% 50%, rgba(255,255,255,0.03), transparent 70%)',
+              background: `radial-gradient(ellipse at 40% 50%, ${app.accentColor}18, transparent 65%), radial-gradient(circle at 30% 50%, rgba(255,255,255,0.025), transparent 70%)`,
             }}
           >
             {Visual}
