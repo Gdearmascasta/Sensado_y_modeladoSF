@@ -11,6 +11,11 @@ env/
 *.MOV
 *.mov
 *.avi
+*.mp4
+*.MP4
+
+# Data (videos simulados locales)
+data/
 
 # Archivos generados
 gravedad_resultado.png
